@@ -1,8 +1,11 @@
 <div class="container visually-hidden-focusable">
 	<a class="d-inline-flex p-2" href="#main">Skip to main content</a>
-	<!-- {%- if navitem.startswith('manual') %} -->
 	<!-- <a class="d-inline-flex p-2 m-1" href="#contents">Skip to table of contents</a> -->
-	<!-- {%- endif %} -->
+	{{ if .IsDescendant (site.GetPage "/") }}
+		This page is in the manual section
+	{{ else }}
+  This page is not in the manual section
+	{{ end }}
 </div>
 <header class="navbar navbar-expand-md sticky-top bg-body-tertiary d-print-none">
 	<nav class="container-lg" aria-label="Page navigation">
