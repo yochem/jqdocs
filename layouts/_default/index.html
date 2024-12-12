@@ -1,0 +1,37 @@
+{{ define "content" }}
+<div class="row">
+  <div class="col-md-6 text-center p-3">
+  {{ with resources.Get "jq.svg" }}
+    <h1><img src="{{ .RelPermalink }}" class="img-fluid" alt="jq" width="400" height="220"></h1>
+  {{ end }}
+  </div>
+  <div class="col-md-6 d-flex flex-column justify-content-center text-center align-items-center">
+    <h2 class="px-1" style="width:16em">{{ .Params.blurb | markdownify }}</h2>
+    <div class="btn-group d-print-none" role="group">
+      <button type="button" class="btn btn-primary dropdown-toggle text-nowrap" data-bs-toggle="dropdown" aria-expanded="false">
+        Download jq 1.7.1
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-linux-amd64" aria-label="Link to download executable: Linux (AMD64)"><span class="bi bi-download me-2" aria-hidden="true"></span>Linux (AMD64)</a></li>
+        <li><a class="dropdown-item" href="https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-linux-arm64" aria-label="Link to download executable: Linux (ARM64)"><span class="bi bi-download me-2" aria-hidden="true"></span>Linux (ARM64)</a></li>
+        <li><a class="dropdown-item" href="https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-macos-amd64" aria-label="Link to download executable: macOS (AMD64)"><span class="bi bi-download me-2" aria-hidden="true"></span>macOS (AMD64)</a></li>
+        <li><a class="dropdown-item" href="https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-macos-arm64" aria-label="Link to download executable: macOS (ARM64)"><span class="bi bi-download me-2" aria-hidden="true"></span>macOS (ARM64)</a></li>
+        <li><a class="dropdown-item" href="https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-windows-amd64.exe" aria-label="Link to download executable: Windows (AMD64)"><span class="bi bi-download me-2" aria-hidden="true"></span>Windows (AMD64)</a></li>
+        <li><a class="dropdown-item" href="/download">Other platforms, older versions, and source</a></li>
+      </ul>
+      <a class="btn btn-primary text-nowrap" href="https://jqplay.org" target="_blank" rel="noopener">
+        Try online at jqplay.org!<span class="bi bi-box-arrow-up-right ms-1" aria-hidden="true"></span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row my-3">
+  <div class="col-md-4">{{ .Params.body1 | markdownify }}</div>
+  <div class="col-md-4">{{ .Params.body2 | markdownify }}</div>
+  <div class="col-md-4">{{ .Params.body3 | markdownify }}</div>
+</div>
+
+{{ .Content }}
+{{ end }}
