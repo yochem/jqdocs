@@ -35,7 +35,7 @@ def convert_document(doc):
     frontmatter = {}
     for key in ("headline", "manpage_intro", "manpage_epilogue"):
         frontmatter[key] = doc.pop(key)
-    md_frontmatter(frontmatter)
+    md_doc.append(md_frontmatter(frontmatter))
 
     md_doc.append(doc.pop('body'))
 
@@ -72,5 +72,6 @@ for manual in Path('manuals').glob('*.yml'):
         old = yaml.safe_load(f)
 
     new = convert_document(old)
-
-    (output_dir / manual.with_suffix('.md').name).write_text(new)
+    new_doc = output_dir / manual.with_suffix('.md').name
+    print(f'converted {manual} to {new_doc}')
+    new_doc.write_text(new)
