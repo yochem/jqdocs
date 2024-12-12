@@ -1,0 +1,39 @@
+baseURL: https://jqlang.org
+languageCode: 'en-us'
+
+disableKinds:
+  - taxonomy
+  - term
+
+markup:
+  goldmark:
+    parser:
+      attribute:
+        block: true
+
+menus:
+  nav:
+  - name: Top Page
+    URL: /
+    weight: 1
+  - name: Tutorial
+    URL: /tutorial/
+    weight: 2
+  - name: Download
+    URL: /download/
+    weight: 3
+  - name: Manual
+    URL: /manual/
+    weight: 4
+  - name: GitHub
+    URL: https://github.com/jqlang/jq
+    weight: 5
+  - name: Issues
+    URL: https://github.com/jqlang/jq/issues
+    weight: 6
+  - name: Try online!
+    URL: https://jqplay.org
+    weight: 7
+  - name: News
+    URL: /news/
+    weight: 8
