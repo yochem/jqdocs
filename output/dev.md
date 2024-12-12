@@ -380,57 +380,75 @@ using the `--disable-decnum` build configuration option, and
 also to allow automated tests derived from these examples to
 pass regardless of whether that option is used.
 
+program:
 ```jq
 .
 ```
+input:
 ```json
 "Hello, world!"
 ```
+output:
 ```json
 "Hello, world!"
 ```
+program:
 ```jq
 .
 ```
+input:
 ```json
 0.12345678901234567890123456789
 ```
+output:
 ```json
 0.12345678901234567890123456789
 ```
+program:
 ```jq
 [., tojson] | . == if have_decnum then [12345678909876543212345,"12345678909876543212345"] else [12345678909876543000000,"12345678909876543000000"] end
 ```
+input:
 ```json
 12345678909876543212345
 ```
+output:
 ```json
 true
 ```
+program:
 ```jq
 . < 0.12345678901234567890123456788
 ```
+input:
 ```json
 0.12345678901234567890123456789
 ```
+output:
 ```json
 false
 ```
+program:
 ```jq
 map([., . == 1]) | tojson | . == if have_decnum then "[[1,true],[1.000,true],[1.0,true],[1.00,true]]" else "[[1,true],[1,true],[1,true],[1,true]]" end
 ```
+input:
 ```json
 [1, 1.000, 1.0, 100e-2]
 ```
+output:
 ```json
 true
 ```
+program:
 ```jq
 . as $big | [$big, $big + 1] | map(. > 10000000000000000000000000000000) | . == if have_decnum then [true, false] else [false, false] end
 ```
+input:
 ```json
 10000000000000000000000000000001
 ```
+output:
 ```json
 true
 ```
@@ -453,30 +471,39 @@ you need to surround it with double quotes like this:
 For example `.["foo::bar"]` and `.["foo.bar"]` work while
 `.foo::bar` does not.
 
+program:
 ```jq
 .foo
 ```
+input:
 ```json
 {"foo": 42, "bar": "less interesting data"}
 ```
+output:
 ```json
 42
 ```
+program:
 ```jq
 .foo
 ```
+input:
 ```json
 {"notfoo": true, "alsonotfoo": false}
 ```
+output:
 ```json
 null
 ```
+program:
 ```jq
 .["foo"]
 ```
+input:
 ```json
 {"foo": 42}
 ```
+output:
 ```json
 42
 ```
@@ -485,39 +512,51 @@ null
 Just like `.foo`, but does not output an error when `.` is not an
 object.
 
+program:
 ```jq
 .foo?
 ```
+input:
 ```json
 {"foo": 42, "bar": "less interesting data"}
 ```
+output:
 ```json
 42
 ```
+program:
 ```jq
 .foo?
 ```
+input:
 ```json
 {"notfoo": true, "alsonotfoo": false}
 ```
+output:
 ```json
 null
 ```
+program:
 ```jq
 .["foo"]?
 ```
+input:
 ```json
 {"foo": 42}
 ```
+output:
 ```json
 42
 ```
+program:
 ```jq
 [.foo?]
 ```
+input:
 ```json
 [1,2]
 ```
+output:
 ```json
 []
 ```
@@ -536,30 +575,39 @@ element.
 Negative indices are allowed, with -1 referring to the last
 element, -2 referring to the next to last element, and so on.
 
+program:
 ```jq
 .[0]
 ```
+input:
 ```json
 [{"name":"JSON", "good":true}, {"name":"XML", "good":false}]
 ```
+output:
 ```json
 {"name":"JSON", "good":true}
 ```
+program:
 ```jq
 .[2]
 ```
+input:
 ```json
 [{"name":"JSON", "good":true}, {"name":"XML", "good":false}]
 ```
+output:
 ```json
 null
 ```
+program:
 ```jq
 .[-2]
 ```
+input:
 ```json
 [1,2,3]
 ```
+output:
 ```json
 2
 ```
@@ -574,39 +622,51 @@ backwards from the end of the array), or omitted (in which
 case it refers to the start or end of the array).
 Indices are zero-based.
 
+program:
 ```jq
 .[2:4]
 ```
+input:
 ```json
 ["a","b","c","d","e"]
 ```
+output:
 ```json
 ["c", "d"]
 ```
+program:
 ```jq
 .[2:4]
 ```
+input:
 ```json
 "abcdefghi"
 ```
+output:
 ```json
 "cd"
 ```
+program:
 ```jq
 .[:3]
 ```
+input:
 ```json
 ["a","b","c","d","e"]
 ```
+output:
 ```json
 ["a", "b", "c"]
 ```
+program:
 ```jq
 .[-2:]
 ```
+input:
 ```json
 ["a","b","c","d","e"]
 ```
+output:
 ```json
 ["d", "e"]
 ```
@@ -624,41 +684,53 @@ the values of the object.
 
 Note that the iterator operator is a generator of values.
 
+program:
 ```jq
 .[]
 ```
+input:
 ```json
 [{"name":"JSON", "good":true}, {"name":"XML", "good":false}]
 ```
+output:
 ```json
 {"name":"JSON", "good":true}
 {"name":"XML", "good":false}
 ```
+program:
 ```jq
 .[]
 ```
+input:
 ```json
 []
 ```
+output:
 ```json
 ```
+program:
 ```jq
 .foo[]
 ```
+input:
 ```json
 {"foo":[1,2,3]}
 ```
+output:
 ```json
 1
 2
 3
 ```
+program:
 ```jq
 .[]
 ```
+input:
 ```json
 {"a": 1, "b": 1}
 ```
+output:
 ```json
 1
 1
@@ -681,33 +753,42 @@ separate outputs.
 
 The `,` operator is one way to construct generators.
 
+program:
 ```jq
 .foo, .bar
 ```
+input:
 ```json
 {"foo": 42, "bar": "something else", "baz": true}
 ```
+output:
 ```json
 42
 "something else"
 ```
+program:
 ```jq
 .user, .projects[]
 ```
+input:
 ```json
 {"user":"stedolan", "projects": ["jq", "wikiflow"]}
 ```
+output:
 ```json
 "stedolan"
 "jq"
 "wikiflow"
 ```
+program:
 ```jq
 .[4,2]
 ```
+input:
 ```json
 ["a","b","c","d","e"]
 ```
+output:
 ```json
 "e"
 "c"
@@ -731,12 +812,15 @@ in a "pipeline", specifically: where the `.` expression appears.
 Thus `.a | . | .b` is the same as `.a.b`, as the `.` in the
 middle refers to whatever value `.a` produced.
 
+program:
 ```jq
 .[] | .name
 ```
+input:
 ```json
 [{"name":"JSON", "good":true}, {"name":"XML", "good":false}]
 ```
+output:
 ```json
 "JSON"
 "XML"
@@ -746,12 +830,15 @@ middle refers to whatever value `.a` produced.
 Parenthesis work as a grouping operator just as in any typical
 programming language.
 
+program:
 ```jq
 (. + 2) * 5
 ```
+input:
 ```json
 1
 ```
+output:
 ```json
 15
 ```
@@ -797,21 +884,27 @@ If you have a filter `X` that produces four results,
 then the expression `[X]` will produce a single result, an
 array of four elements.
 
+program:
 ```jq
 [.user, .projects[]]
 ```
+input:
 ```json
 {"user":"stedolan", "projects": ["jq", "wikiflow"]}
 ```
+output:
 ```json
 ["stedolan", "jq", "wikiflow"]
 ```
+program:
 ```jq
 [ .[] | . * 2]
 ```
+input:
 ```json
 [1, 2, 3]
 ```
+output:
 ```json
 [2, 4, 6]
 ```
@@ -878,22 +971,28 @@ produces
 
     {"foo":"f o o","b a r":"f o o"}
 
+program:
 ```jq
 {user, title: .titles[]}
 ```
+input:
 ```json
 {"user":"stedolan","titles":["JQ Primer", "More JQ"]}
 ```
+output:
 ```json
 {"user":"stedolan", "title": "JQ Primer"}
 {"user":"stedolan", "title": "More JQ"}
 ```
+program:
 ```jq
 {(.user): .titles}
 ```
+input:
 ```json
 {"user":"stedolan","titles":["JQ Primer", "More JQ"]}
 ```
+output:
 ```json
 {"stedolan": ["JQ Primer", "More JQ"]}
 ```
@@ -909,12 +1008,15 @@ below we use `.. | .a?` to find all the values of object keys
 This is particularly useful in conjunction with `path(EXP)`
 (also see below) and the `?` operator.
 
+program:
 ```jq
 .. | .a?
 ```
+input:
 ```json
 [[{"a":1}]]
 ```
+output:
 ```json
 1
 ```
@@ -959,48 +1061,63 @@ to the same input, and adds the results together. What
 `null` can be added to any value, and returns the other
 value unchanged.
 
+program:
 ```jq
 .a + 1
 ```
+input:
 ```json
 {"a": 7}
 ```
+output:
 ```json
 8
 ```
+program:
 ```jq
 .a + .b
 ```
+input:
 ```json
 {"a": [1,2], "b": [3,4]}
 ```
+output:
 ```json
 [1,2,3,4]
 ```
+program:
 ```jq
 .a + null
 ```
+input:
 ```json
 {"a": 1}
 ```
+output:
 ```json
 1
 ```
+program:
 ```jq
 .a + 1
 ```
+input:
 ```json
 {}
 ```
+output:
 ```json
 1
 ```
+program:
 ```jq
 {a: 1} + {b: 2} + {c: 3} + {a: 42}
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 {"a": 42, "b": 2, "c": 3}
 ```
@@ -1010,21 +1127,27 @@ As well as normal arithmetic subtraction on numbers, the `-`
 operator can be used on arrays to remove all occurrences of
 the second array's elements from the first array.
 
+program:
 ```jq
 4 - .a
 ```
+input:
 ```json
 {"a":3}
 ```
+output:
 ```json
 1
 ```
+program:
 ```jq
 . - ["xml", "yaml"]
 ```
+input:
 ```json
 ["xml", "yaml", "json"]
 ```
+output:
 ```json
 ["json"]
 ```
@@ -1044,39 +1167,51 @@ like addition but if both objects contain a value for the
 same key, and the values are objects, the two are merged with
 the same strategy.
 
+program:
 ```jq
 10 / . * 3
 ```
+input:
 ```json
 5
 ```
+output:
 ```json
 6
 ```
+program:
 ```jq
 . / ", "
 ```
+input:
 ```json
 "a, b,c,d, e"
 ```
+output:
 ```json
 ["a","b,c,d","e"]
 ```
+program:
 ```jq
 {"k": {"a": 1, "b": 2}} * {"k": {"a": 0,"c": 3}}
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 {"k": {"a": 0, "b": 2, "c": 3}}
 ```
+program:
 ```jq
 .[] | (1 / .)?
 ```
+input:
 ```json
 [1,0,-1]
 ```
+output:
 ```json
 1
 -1
@@ -1091,12 +1226,15 @@ definition for numeric input.
 
 To compute the absolute value of a number as a floating point number, you may wish use `fabs`.
 
+program:
 ```jq
 map(abs)
 ```
+input:
 ```json
 [-10, -1.1, -1e-1]
 ```
+output:
 ```json
 [10,1.1,1e-1]
 ```
@@ -1119,12 +1257,15 @@ different types of value:
 
 - It is an error to use `length` on a **boolean**.
 
+program:
 ```jq
 .[] | length
 ```
+input:
 ```json
 [[1,2], "string", {"a":2}, null, -5]
 ```
+output:
 ```json
 2
 6
@@ -1137,12 +1278,15 @@ different types of value:
 The builtin function `utf8bytelength` outputs the number of
 bytes used to encode a string in UTF-8.
 
+program:
 ```jq
 utf8bytelength
 ```
+input:
 ```json
 "\u03bc"
 ```
+output:
 ```json
 2
 ```
@@ -1164,21 +1308,27 @@ The `keys_unsorted` function is just like `keys`, but if
 the input is an object then the keys will not be sorted,
 instead the keys will roughly be in insertion order.
 
+program:
 ```jq
 keys
 ```
+input:
 ```json
 {"abc": 1, "abcd": 2, "Foo": 3}
 ```
+output:
 ```json
 ["Foo", "abc", "abcd"]
 ```
+program:
 ```jq
 keys
 ```
+input:
 ```json
 [42,3,35]
 ```
+output:
 ```json
 [0,1,2]
 ```
@@ -1192,21 +1342,27 @@ given index.
 is a member of the array returned by `keys`, although `has`
 will be faster.
 
+program:
 ```jq
 map(has("foo"))
 ```
+input:
 ```json
 [{"foo": 42}, {}]
 ```
+output:
 ```json
 [true, false]
 ```
+program:
 ```jq
 map(has(2))
 ```
+input:
 ```json
 [[0,1], ["a","b","c"]]
 ```
+output:
 ```json
 [false, true]
 ```
@@ -1217,22 +1373,28 @@ given object, or the input index corresponds to an element
 in the given array. It is, essentially, an inversed version
 of `has`.
 
+program:
 ```jq
 .[] | in({"foo": 42})
 ```
+input:
 ```json
 ["foo", "bar"]
 ```
+output:
 ```json
 true
 false
 ```
+program:
 ```jq
 map(in([0,1]))
 ```
+input:
 ```json
 [2, 0]
 ```
+output:
 ```json
 [false, true]
 ```
@@ -1280,39 +1442,51 @@ input is `[1]` in all cases:
 
 In fact, these are their implementations.
 
+program:
 ```jq
 map(.+1)
 ```
+input:
 ```json
 [1,2,3]
 ```
+output:
 ```json
 [2,3,4]
 ```
+program:
 ```jq
 map_values(.+1)
 ```
+input:
 ```json
 {"a": 1, "b": 2, "c": 3}
 ```
+output:
 ```json
 {"a": 2, "b": 3, "c": 4}
 ```
+program:
 ```jq
 map(., .)
 ```
+input:
 ```json
 [1,2]
 ```
+output:
 ```json
 [1,1,2,2]
 ```
+program:
 ```jq
 map_values(. // empty)
 ```
+input:
 ```json
 {"a": null, "b": true, "c": false}
 ```
+output:
 ```json
 {"b":true}
 ```
@@ -1324,21 +1498,27 @@ one of these specifications, then `(. | p)` will evaluate to the
 same value as `(. | pick(pathexps) | p)`. For arrays, negative
 indices and `.[m:n]` specifications should not be used.
 
+program:
 ```jq
 pick(.a, .b.c, .x)
 ```
+input:
 ```json
 {"a": 1, "b": {"c": 2, "d": 3}, "e": 4}
 ```
+output:
 ```json
 {"a":1,"b":{"c":2},"x":null}
 ```
+program:
 ```jq
 pick(.[2], .[0], .[0])
 ```
+input:
 ```json
 [1,2,3,4]
 ```
+output:
 ```json
 [1,null,3]
 ```
@@ -1365,21 +1545,27 @@ expressions.  The expression
 `path(..|select(type=="boolean"))` outputs all the paths to
 boolean values in `.`, and only those paths.
 
+program:
 ```jq
 path(.a[0].b)
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 ["a",0,"b"]
 ```
+program:
 ```jq
 [path(..)]
 ```
+input:
 ```json
 {"a":[{"b":1}]}
 ```
+output:
 ```json
 [[],["a"],["a",0],["a",0,"b"]]
 ```
@@ -1388,21 +1574,27 @@ null
 The builtin function `del` removes a key and its corresponding
 value from an object.
 
+program:
 ```jq
 del(.foo)
 ```
+input:
 ```json
 {"foo": 42, "bar": 9001, "baz": 42}
 ```
+output:
 ```json
 {"bar": 9001, "baz": 42}
 ```
+program:
 ```jq
 del(.[1, 2])
 ```
+input:
 ```json
 ["foo", "bar", "baz"]
 ```
+output:
 ```json
 ["foo"]
 ```
@@ -1411,21 +1603,27 @@ del(.[1, 2])
 The builtin function `getpath` outputs the values in `.` found
 at each path in `PATHS`.
 
+program:
 ```jq
 getpath(["a","b"])
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 null
 ```
+program:
 ```jq
 [getpath(["a","b"], ["a","c"])]
 ```
+input:
 ```json
 {"a":{"b":0, "c":1}}
 ```
+output:
 ```json
 [0, 1]
 ```
@@ -1433,30 +1631,39 @@ null
 
 The builtin function `setpath` sets the `PATHS` in `.` to `VALUE`.
 
+program:
 ```jq
 setpath(["a","b"]; 1)
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 {"a": {"b": 1}}
 ```
+program:
 ```jq
 setpath(["a","b"]; 1)
 ```
+input:
 ```json
 {"a":{"b":0}}
 ```
+output:
 ```json
 {"a": {"b": 1}}
 ```
+program:
 ```jq
 setpath([0,"a"]; 1)
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 [{"a":1}]
 ```
@@ -1466,12 +1673,15 @@ The builtin function `delpaths` deletes the `PATHS` in `.`.
 `PATHS` must be an array of paths, where each path is an array
 of strings and numbers.
 
+program:
 ```jq
 delpaths([["a","b"]])
 ```
+input:
 ```json
 {"a":{"b":1},"x":{"y":2}}
 ```
+output:
 ```json
 {"a":{},"x":{"y":2}}
 ```
@@ -1488,30 +1698,39 @@ doing some operation to all keys and values of an object.
 `from_entries` accepts `"key"`, `"Key"`, `"name"`, `"Name"`,
 `"value"`, and `"Value"` as keys.
 
+program:
 ```jq
 to_entries
 ```
+input:
 ```json
 {"a": 1, "b": 2}
 ```
+output:
 ```json
 [{"key":"a", "value":1}, {"key":"b", "value":2}]
 ```
+program:
 ```jq
 from_entries
 ```
+input:
 ```json
 [{"key":"a", "value":1}, {"key":"b", "value":2}]
 ```
+output:
 ```json
 {"a": 1, "b": 2}
 ```
+program:
 ```jq
 with_entries(.key |= "KEY_" + .)
 ```
+input:
 ```json
 {"a": 1, "b": 2}
 ```
+output:
 ```json
 {"KEY_a": 1, "KEY_b": 2}
 ```
@@ -1524,21 +1743,27 @@ otherwise.
 It's useful for filtering lists: `[1,2,3] | map(select(. >= 2))`
 will give you `[2,3]`.
 
+program:
 ```jq
 map(select(. >= 2))
 ```
+input:
 ```json
 [1,5,3,0,7]
 ```
+output:
 ```json
 [5,3,7]
 ```
+program:
 ```jq
 .[] | select(.id == "second")
 ```
+input:
 ```json
 [{"id": "first", "val": 1}, {"id": "second", "val": 2}]
 ```
+output:
 ```json
 {"id": "second", "val": 2}
 ```
@@ -1549,12 +1774,15 @@ iterables (arrays or objects), booleans, numbers, normal
 numbers, finite numbers, strings, null, non-null values, and
 non-iterables, respectively.
 
+program:
 ```jq
 .[]|numbers
 ```
+input:
 ```json
 [[],{},1,"foo",null,true,false]
 ```
+output:
 ```json
 1
 ```
@@ -1564,22 +1792,28 @@ non-iterables, respectively.
 
 It's useful on occasion. You'll know if you need it :)
 
+program:
 ```jq
 1, empty, 2
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 1
 2
 ```
+program:
 ```jq
 [1,2,empty,3]
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 [1,2,3]
 ```
@@ -1589,21 +1823,27 @@ Produces an error with the input value, or with the message
 given as the argument. Errors can be caught with try/catch;
 see below.
 
+program:
 ```jq
 try error catch .
 ```
+input:
 ```json
 "error message"
 ```
+output:
 ```json
 "error message"
 ```
+program:
 ```jq
 try error("invalid value: \(.)") catch .
 ```
+input:
 ```json
 42
 ```
+output:
 ```json
 "invalid value: 42"
 ```
@@ -1629,12 +1869,15 @@ Produces an object with a "file" key and a "line" key, with
 the filename and line number where `$__loc__` occurs, as
 values.
 
+program:
 ```jq
 try error("\($__loc__)") catch .
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 "{\"file\":\"<top-level>\",\"line\":1}"
 ```
@@ -1648,21 +1891,27 @@ itself).
 That is, `paths(type == "number")` outputs the paths to all numeric
 values.
 
+program:
 ```jq
 [paths]
 ```
+input:
 ```json
 [1,[[],{"a":2}]]
 ```
+output:
 ```json
 [[0],[1],[1,0],[1,1],[1,1,"a"]]
 ```
+program:
 ```jq
 [paths(type == "number")]
 ```
+input:
 ```json
 [1,[[],{"a":2}]]
 ```
+output:
 ```json
 [[0],[1,1,"a"]]
 ```
@@ -1679,39 +1928,51 @@ If the input is an empty array, `add` returns `null`.
 `add(generator)` operates on the given generator rather than
 the input.
 
+program:
 ```jq
 add
 ```
+input:
 ```json
 ["a","b","c"]
 ```
+output:
 ```json
 "abc"
 ```
+program:
 ```jq
 add
 ```
+input:
 ```json
 [1, 2, 3]
 ```
+output:
 ```json
 6
 ```
+program:
 ```jq
 add
 ```
+input:
 ```json
 []
 ```
+output:
 ```json
 null
 ```
+program:
 ```jq
 add(.[].a)
 ```
+input:
 ```json
 [{"a":3}, {"a":5}, {"b":6}]
 ```
+output:
 ```json
 8
 ```
@@ -1729,30 +1990,39 @@ elements of the input array.
 The `any(generator; condition)` form applies the given
 condition to all the outputs of the given generator.
 
+program:
 ```jq
 any
 ```
+input:
 ```json
 [true, false]
 ```
+output:
 ```json
 true
 ```
+program:
 ```jq
 any
 ```
+input:
 ```json
 [false, false]
 ```
+output:
 ```json
 false
 ```
+program:
 ```jq
 any
 ```
+input:
 ```json
 []
 ```
+output:
 ```json
 false
 ```
@@ -1770,30 +2040,39 @@ condition to all the outputs of the given generator.
 
 If the input is an empty array, `all` returns `true`.
 
+program:
 ```jq
 all
 ```
+input:
 ```json
 [true, false]
 ```
+output:
 ```json
 false
 ```
+program:
 ```jq
 all
 ```
+input:
 ```json
 [true, true]
 ```
+output:
 ```json
 true
 ```
+program:
 ```jq
 all
 ```
+input:
 ```json
 []
 ```
+output:
 ```json
 true
 ```
@@ -1807,39 +2086,51 @@ an argument to it to specify how many levels of nesting to flatten.
 `flatten(2)` is like `flatten`, but going only up to two
 levels deep.
 
+program:
 ```jq
 flatten
 ```
+input:
 ```json
 [1, [2], [[3]]]
 ```
+output:
 ```json
 [1, 2, 3]
 ```
+program:
 ```jq
 flatten(1)
 ```
+input:
 ```json
 [1, [2], [[3]]]
 ```
+output:
 ```json
 [1, 2, [3]]
 ```
+program:
 ```jq
 flatten
 ```
+input:
 ```json
 [[]]
 ```
+output:
 ```json
 []
 ```
+program:
 ```jq
 flatten
 ```
+input:
 ```json
 [{"foo": "bar"}, [{"foo": "baz"}]]
 ```
+output:
 ```json
 [{"foo": "bar"}, {"foo": "baz"}]
 ```
@@ -1859,58 +2150,76 @@ with an increment of 1.
 The three argument form generates numbers `from` to `upto`
 with an increment of `by`.
 
+program:
 ```jq
 range(2; 4)
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 2
 3
 ```
+program:
 ```jq
 [range(2; 4)]
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 [2,3]
 ```
+program:
 ```jq
 [range(4)]
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 [0,1,2,3]
 ```
+program:
 ```jq
 [range(0; 10; 3)]
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 [0,3,6,9]
 ```
+program:
 ```jq
 [range(0; 10; -1)]
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 []
 ```
+program:
 ```jq
 [range(0; -5; -1)]
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 [0,-1,-2,-3,-4]
 ```
@@ -1918,12 +2227,15 @@ null
 
 The `floor` function returns the floor of its numeric input.
 
+program:
 ```jq
 floor
 ```
+input:
 ```json
 3.14159
 ```
+output:
 ```json
 3
 ```
@@ -1931,12 +2243,15 @@ floor
 
 The `sqrt` function returns the square root of its numeric input.
 
+program:
 ```jq
 sqrt
 ```
+input:
 ```json
 9
 ```
+output:
 ```json
 3
 ```
@@ -1946,12 +2261,15 @@ The `tonumber` function parses its input as a number. It
 will convert correctly-formatted strings to their numeric
 equivalent, leave numbers alone, and give an error on all other input.
 
+program:
 ```jq
 .[] | tonumber
 ```
+input:
 ```json
 [1, "1"]
 ```
+output:
 ```json
 1
 1
@@ -1962,12 +2280,15 @@ The `tostring` function prints its input as a
 string. Strings are left unchanged, and all other values are
 JSON-encoded.
 
+program:
 ```jq
 .[] | tostring
 ```
+input:
 ```json
 [1, "1", [1]]
 ```
+output:
 ```json
 "1"
 "1"
@@ -1979,12 +2300,15 @@ The `type` function returns the type of its argument as a
 string, which is one of null, boolean, number, string, array
 or object.
 
+program:
 ```jq
 map(type)
 ```
+input:
 ```json
 [0, false, [], {}, null, "hello"]
 ```
+output:
 ```json
 ["number", "boolean", "array", "object", "null", "string"]
 ```
@@ -2003,22 +2327,28 @@ Note that division by zero raises an error.
 Currently most arithmetic operations operating on infinities,
 NaNs, and sub-normals do not raise errors.
 
+program:
 ```jq
 .[] | (infinite * .) < 0
 ```
+input:
 ```json
 [-1, 1]
 ```
+output:
 ```json
 true
 false
 ```
+program:
 ```jq
 infinite, nan | type
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 "number"
 "number"
@@ -2048,30 +2378,39 @@ When `f` produces multiple values, it firstly compares the
 first values, and the second values if the first values are
 equal, and so on.
 
+program:
 ```jq
 sort
 ```
+input:
 ```json
 [8,3,null,6]
 ```
+output:
 ```json
 [null,3,6,8]
 ```
+program:
 ```jq
 sort_by(.foo)
 ```
+input:
 ```json
 [{"foo":4, "bar":10}, {"foo":3, "bar":10}, {"foo":2, "bar":1}]
 ```
+output:
 ```json
 [{"foo":2, "bar":1}, {"foo":3, "bar":10}, {"foo":4, "bar":10}]
 ```
+program:
 ```jq
 sort_by(.foo, .bar)
 ```
+input:
 ```json
 [{"foo":4, "bar":10}, {"foo":3, "bar":20}, {"foo":2, "bar":1}, {"foo":3, "bar":10}]
 ```
+output:
 ```json
 [{"foo":2, "bar":1}, {"foo":3, "bar":10}, {"foo":3, "bar":20}, {"foo":4, "bar":10}]
 ```
@@ -2086,12 +2425,15 @@ Any jq expression, not just a field access, may be used in
 place of `.foo`. The sorting order is the same as described
 in the `sort` function above.
 
+program:
 ```jq
 group_by(.foo)
 ```
+input:
 ```json
 [{"foo":1, "bar":10}, {"foo":3, "bar":100}, {"foo":1, "bar":1}]
 ```
+output:
 ```json
 [[{"foo":1, "bar":10}, {"foo":1, "bar":1}], [{"foo":3, "bar":100}]]
 ```
@@ -2103,21 +2445,27 @@ The `min_by(path_exp)` and `max_by(path_exp)` functions allow
 you to specify a particular field or property to examine, e.g.
 `min_by(.foo)` finds the object with the smallest `foo` field.
 
+program:
 ```jq
 min
 ```
+input:
 ```json
 [5,4,2,7]
 ```
+output:
 ```json
 2
 ```
+program:
 ```jq
 max_by(.foo)
 ```
+input:
 ```json
 [{"foo":1, "bar":14}, {"foo":2, "bar":3}]
 ```
+output:
 ```json
 {"foo":2, "bar":3}
 ```
@@ -2132,30 +2480,39 @@ for each value obtained by applying the argument. Think of it
 as making an array by taking one element out of every group
 produced by `group`.
 
+program:
 ```jq
 unique
 ```
+input:
 ```json
 [1,2,5,3,5,3,1,3]
 ```
+output:
 ```json
 [1,2,3,5]
 ```
+program:
 ```jq
 unique_by(.foo)
 ```
+input:
 ```json
 [{"foo": 1, "bar": 2}, {"foo": 1, "bar": 3}, {"foo": 4, "bar": 5}]
 ```
+output:
 ```json
 [{"foo": 1, "bar": 2}, {"foo": 4, "bar": 5}]
 ```
+program:
 ```jq
 unique_by(length)
 ```
+input:
 ```json
 ["chunky", "bacon", "kitten", "cicada", "asparagus"]
 ```
+output:
 ```json
 ["bacon", "chunky", "asparagus"]
 ```
@@ -2163,12 +2520,15 @@ unique_by(length)
 
 This function reverses an array.
 
+program:
 ```jq
 reverse
 ```
+input:
 ```json
 [1,2,3,4]
 ```
+output:
 ```json
 [4,3,2,1]
 ```
@@ -2183,48 +2543,63 @@ object A if all of the values in B are contained in the
 value in A with the same key. All other types are assumed to
 be contained in each other if they are equal.
 
+program:
 ```jq
 contains("bar")
 ```
+input:
 ```json
 "foobar"
 ```
+output:
 ```json
 true
 ```
+program:
 ```jq
 contains(["baz", "bar"])
 ```
+input:
 ```json
 ["foobar", "foobaz", "blarp"]
 ```
+output:
 ```json
 true
 ```
+program:
 ```jq
 contains(["bazzzzz", "bar"])
 ```
+input:
 ```json
 ["foobar", "foobaz", "blarp"]
 ```
+output:
 ```json
 false
 ```
+program:
 ```jq
 contains({foo: 12, bar: [{barp: 12}]})
 ```
+input:
 ```json
 {"foo": 12, "bar":[1,2,{"barp":12, "blip":13}]}
 ```
+output:
 ```json
 true
 ```
+program:
 ```jq
 contains({foo: 12, bar: [{barp: 15}]})
 ```
+input:
 ```json
 {"foo": 12, "bar":[1,2,{"barp":12, "blip":13}]}
 ```
+output:
 ```json
 false
 ```
@@ -2235,30 +2610,39 @@ occurs.  The input may be an array, in which case if `s` is an
 array then the indices output will be those where all elements
 in `.` match those of `s`.
 
+program:
 ```jq
 indices(", ")
 ```
+input:
 ```json
 "a,b, cd, efg, hijk"
 ```
+output:
 ```json
 [3,7,12]
 ```
+program:
 ```jq
 indices(1)
 ```
+input:
 ```json
 [0,1,2,1,3,1,4]
 ```
+output:
 ```json
 [1,3,5]
 ```
+program:
 ```jq
 indices([1,2])
 ```
+input:
 ```json
 [0,1,2,3,1,4,2,5,1,2,6,7]
 ```
+output:
 ```json
 [1,8]
 ```
@@ -2267,57 +2651,75 @@ indices([1,2])
 Outputs the index of the first (`index`) or last (`rindex`)
 occurrence of `s` in the input.
 
+program:
 ```jq
 index(", ")
 ```
+input:
 ```json
 "a,b, cd, efg, hijk"
 ```
+output:
 ```json
 3
 ```
+program:
 ```jq
 index(1)
 ```
+input:
 ```json
 [0,1,2,1,3,1,4]
 ```
+output:
 ```json
 1
 ```
+program:
 ```jq
 index([1,2])
 ```
+input:
 ```json
 [0,1,2,3,1,4,2,5,1,2,6,7]
 ```
+output:
 ```json
 1
 ```
+program:
 ```jq
 rindex(", ")
 ```
+input:
 ```json
 "a,b, cd, efg, hijk"
 ```
+output:
 ```json
 12
 ```
+program:
 ```jq
 rindex(1)
 ```
+input:
 ```json
 [0,1,2,1,3,1,4]
 ```
+output:
 ```json
 5
 ```
+program:
 ```jq
 rindex([1,2])
 ```
+input:
 ```json
 [0,1,2,3,1,4,2,5,1,2,6,7]
 ```
+output:
 ```json
 8
 ```
@@ -2327,48 +2729,63 @@ The filter `inside(b)` will produce true if the input is
 completely contained within b. It is, essentially, an
 inversed version of `contains`.
 
+program:
 ```jq
 inside("foobar")
 ```
+input:
 ```json
 "bar"
 ```
+output:
 ```json
 true
 ```
+program:
 ```jq
 inside(["foobar", "foobaz", "blarp"])
 ```
+input:
 ```json
 ["baz", "bar"]
 ```
+output:
 ```json
 true
 ```
+program:
 ```jq
 inside(["foobar", "foobaz", "blarp"])
 ```
+input:
 ```json
 ["bazzzzz", "bar"]
 ```
+output:
 ```json
 false
 ```
+program:
 ```jq
 inside({"foo": 12, "bar":[1,2,{"barp":12, "blip":13}]})
 ```
+input:
 ```json
 {"foo": 12, "bar": [{"barp": 12}]}
 ```
+output:
 ```json
 true
 ```
+program:
 ```jq
 inside({"foo": 12, "bar":[1,2,{"barp":12, "blip":13}]})
 ```
+input:
 ```json
 {"foo": 12, "bar": [{"barp": 15}]}
 ```
+output:
 ```json
 false
 ```
@@ -2376,12 +2793,15 @@ false
 
 Outputs `true` if . starts with the given string argument.
 
+program:
 ```jq
 [.[]|startswith("foo")]
 ```
+input:
 ```json
 ["fo", "foo", "barfoo", "foobar", "barfoob"]
 ```
+output:
 ```json
 [false, true, false, true, false]
 ```
@@ -2389,12 +2809,15 @@ Outputs `true` if . starts with the given string argument.
 
 Outputs `true` if . ends with the given string argument.
 
+program:
 ```jq
 [.[]|endswith("foo")]
 ```
+input:
 ```json
 ["foobar", "barfoo"]
 ```
+output:
 ```json
 [false, true]
 ```
@@ -2404,24 +2827,30 @@ Outputs all combinations of the elements of the arrays in the
 input array. If given an argument `n`, it outputs all combinations
 of `n` repetitions of the input array.
 
+program:
 ```jq
 combinations
 ```
+input:
 ```json
 [[1,2], [3, 4]]
 ```
+output:
 ```json
 [1, 3]
 [1, 4]
 [2, 3]
 [2, 4]
 ```
+program:
 ```jq
 combinations(2)
 ```
+input:
 ```json
 [0, 1]
 ```
+output:
 ```json
 [0, 0]
 [0, 1]
@@ -2433,12 +2862,15 @@ combinations(2)
 Outputs its input with the given prefix string removed, if it
 starts with it.
 
+program:
 ```jq
 [.[]|ltrimstr("foo")]
 ```
+input:
 ```json
 ["fo", "foo", "barfoo", "foobar", "afoo"]
 ```
+output:
 ```json
 ["fo","","barfoo","bar","afoo"]
 ```
@@ -2447,12 +2879,15 @@ starts with it.
 Outputs its input with the given suffix string removed, if it
 ends with it.
 
+program:
 ```jq
 [.[]|rtrimstr("foo")]
 ```
+input:
 ```json
 ["fo", "foo", "barfoo", "foobar", "foob"]
 ```
+output:
 ```json
 ["fo","","bar","foobar","foob"]
 ```
@@ -2469,12 +2904,15 @@ and also all characters in the Unicode character database with the
 whitespace property. Note that what considers whitespace might
 change in the future.
 
+program:
 ```jq
 trim, ltrim, rtrim
 ```
+input:
 ```json
 " abc "
 ```
+output:
 ```json
 "abc"
 "abc "
@@ -2485,12 +2923,15 @@ trim, ltrim, rtrim
 Converts an input string into an array of the string's
 codepoint numbers.
 
+program:
 ```jq
 explode
 ```
+input:
 ```json
 "foobar"
 ```
+output:
 ```json
 [102,111,111,98,97,114]
 ```
@@ -2498,12 +2939,15 @@ explode
 
 The inverse of explode.
 
+program:
 ```jq
 implode
 ```
+input:
 ```json
 [65, 66, 67]
 ```
+output:
 ```json
 "ABC"
 ```
@@ -2514,12 +2958,15 @@ Splits an input string on the separator argument.
 `split` can also split on regex matches when called with
 two arguments (see the regular expressions section below).
 
+program:
 ```jq
 split(", ")
 ```
+input:
 ```json
 "a, b,c,d, e, "
 ```
+output:
 ```json
 ["a","b,c,d","e",""]
 ```
@@ -2534,21 +2981,27 @@ Numbers and booleans in the input are converted to strings.
 Null values are treated as empty strings. Arrays and objects
 in the input are not supported.
 
+program:
 ```jq
 join(", ")
 ```
+input:
 ```json
 ["a","b,c,d","e"]
 ```
+output:
 ```json
 "a, b,c,d, e"
 ```
+program:
 ```jq
 join(" ")
 ```
+input:
 ```json
 ["a",1,2.3,true,null,false]
 ```
+output:
 ```json
 "a 1 2.3 true  false"
 ```
@@ -2557,12 +3010,15 @@ join(" ")
 Emit a copy of the input string with its alphabetic characters (a-z and A-Z)
 converted to the specified case.
 
+program:
 ```jq
 ascii_upcase
 ```
+input:
 ```json
 "useful but not for é"
 ```
+output:
 ```json
 "USEFUL BUT NOT FOR é"
 ```
@@ -2576,12 +3032,15 @@ recursive jq function.  Recursive calls within `while` will
 not consume additional memory if `update` produces at most one
 output for each input.  See advanced topics below.
 
+program:
 ```jq
 [while(.<100; .*2)]
 ```
+input:
 ```json
 1
 ```
+output:
 ```json
 [1,2,4,8,16,32,64]
 ```
@@ -2595,12 +3054,15 @@ recursive jq function.  Recursive calls within `repeat` will
 not consume additional memory if `exp` produces at most one
 output for each input.  See advanced topics below.
 
+program:
 ```jq
 [repeat(.*2, error)?]
 ```
+input:
 ```json
 1
 ```
+output:
 ```json
 [2]
 ```
@@ -2616,12 +3078,15 @@ recursive jq function.  Recursive calls within `until()` will
 not consume additional memory if `next` produces at most one
 output for each input.  See advanced topics below.
 
+program:
 ```jq
 [.,1]|until(.[0] < 1; [.[0] - 1, .[1] * .[0]])|.[1]
 ```
+input:
 ```json
 4
 ```
+output:
 ```json
 24
 ```
@@ -2662,36 +3127,45 @@ The recursive calls in `recurse` will not consume additional
 memory whenever `f` produces at most a single output for each
 input.
 
+program:
 ```jq
 recurse(.foo[])
 ```
+input:
 ```json
 {"foo":[{"foo": []}, {"foo":[{"foo":[]}]}]}
 ```
+output:
 ```json
 {"foo":[{"foo":[]},{"foo":[{"foo":[]}]}]}
 {"foo":[]}
 {"foo":[{"foo":[]}]}
 {"foo":[]}
 ```
+program:
 ```jq
 recurse
 ```
+input:
 ```json
 {"a":0,"b":[1]}
 ```
+output:
 ```json
 {"a":0,"b":[1]}
 0
 [1]
 1
 ```
+program:
 ```jq
 recurse(. * .; . < 20)
 ```
+input:
 ```json
 2
 ```
+output:
 ```json
 2
 4
@@ -2711,21 +3185,27 @@ array of arrays before processing the array itself.  The second
 example shows how all the keys of all the objects within the
 input can be considered for alteration.
 
+program:
 ```jq
 walk(if type == "array" then sort else . end)
 ```
+input:
 ```json
 [[4, 1, 7], [8, 5, 2], [3, 6, 9]]
 ```
+output:
 ```json
 [[1,4,7],[2,5,8],[3,6,9]]
 ```
+program:
 ```jq
 walk( if type == "object" then with_entries( .key |= sub( "^_+"; "") ) else . end )
 ```
+input:
 ```json
 [ { "_a": { "__b": 2 } } ]
 ```
+output:
 ```json
 [{"a":{"b":2}}]
 ```
@@ -2762,21 +3242,27 @@ set when the jq program started.
 At the moment there is no builtin for setting environment
 variables.
 
+program:
 ```jq
 $ENV.PAGER
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 "less"
 ```
+program:
 ```jq
 env.PAGER
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 "less"
 ```
@@ -2785,12 +3271,15 @@ null
 Transpose a possibly jagged matrix (an array of arrays).
 Rows are padded with nulls so the result is always rectangular.
 
+program:
 ```jq
 transpose
 ```
+input:
 ```json
 [[1], [2,3]]
 ```
+output:
 ```json
 [[1,2],[null,3]]
 ```
@@ -2805,30 +3294,39 @@ after the insertion of x at ix.  If the array is not sorted,
 `bsearch(x)` will return an integer that is probably of no
 interest.
 
+program:
 ```jq
 bsearch(0)
 ```
+input:
 ```json
 [0,1]
 ```
+output:
 ```json
 0
 ```
+program:
 ```jq
 bsearch(0)
 ```
+input:
 ```json
 [1,2,3]
 ```
+output:
 ```json
 -1
 ```
+program:
 ```jq
 bsearch(4) as $ix | if $ix < 0 then .[-(1+$ix)] = 4 else . end
 ```
+input:
 ```json
 [1,2,3]
 ```
+output:
 ```json
 [1,2,3,4]
 ```
@@ -2838,12 +3336,15 @@ Inside a string, you can put an expression inside parens
 after a backslash. Whatever the expression returns will be
 interpolated into the string.
 
+program:
 ```jq
 "The input was \(.), which is one less than \(.+1)"
 ```
+input:
 ```json
 42
 ```
+output:
 ```json
 "The input was 42, which is one less than 43"
 ```
@@ -2854,30 +3355,39 @@ or parse JSON texts into values, respectively.  The `tojson`
 builtin differs from `tostring` in that `tostring` returns strings
 unmodified, while `tojson` encodes strings as JSON strings.
 
+program:
 ```jq
 [.[]|tostring]
 ```
+input:
 ```json
 [1, "foo", ["foo"]]
 ```
+output:
 ```json
 ["1","foo","[\"foo\"]"]
 ```
+program:
 ```jq
 [.[]|tojson]
 ```
+input:
 ```json
 [1, "foo", ["foo"]]
 ```
+output:
 ```json
 ["1","\"foo\"","[\"foo\"]"]
 ```
+program:
 ```jq
 [.[]|tojson|fromjson]
 ```
+input:
 ```json
 [1, "foo", ["foo"]]
 ```
+output:
 ```json
 [1,"foo",["foo"]]
 ```
@@ -2959,39 +3469,51 @@ will produce the following output for the input
 Note that the slashes, question mark, etc. in the URL are
 not escaped, as they were part of the string literal.
 
+program:
 ```jq
 @html
 ```
+input:
 ```json
 "This works if x < y"
 ```
+output:
 ```json
 "This works if x &lt; y"
 ```
+program:
 ```jq
 @sh "echo \(.)"
 ```
+input:
 ```json
 "O'Hara's Ale"
 ```
+output:
 ```json
 "echo 'O'\\''Hara'\\''s Ale'"
 ```
+program:
 ```jq
 @base64
 ```
+input:
 ```json
 "This is a message"
 ```
+output:
 ```json
 "VGhpcyBpcyBhIG1lc3NhZ2U="
 ```
+program:
 ```jq
 @base64d
 ```
+input:
 ```json
 "VGhpcyBpcyBhIG1lc3NhZ2U="
 ```
+output:
 ```json
 "This is a message"
 ```
@@ -3056,30 +3578,39 @@ jq may not support some or all of this date functionality on
 some systems. In particular, the `%u` and `%j` specifiers for
 `strptime(fmt)` are not supported on macOS.
 
+program:
 ```jq
 fromdate
 ```
+input:
 ```json
 "2015-03-05T23:51:47Z"
 ```
+output:
 ```json
 1425599507
 ```
+program:
 ```jq
 strptime("%Y-%m-%dT%H:%M:%SZ")
 ```
+input:
 ```json
 "2015-03-05T23:51:47Z"
 ```
+output:
 ```json
 [2015,2,5,23,51,47,4,63]
 ```
+program:
 ```jq
 strptime("%Y-%m-%dT%H:%M:%SZ")|mktime
 ```
+input:
 ```json
 "2015-03-05T23:51:47Z"
 ```
+output:
 ```json
 1425599507
 ```
@@ -3141,30 +3672,39 @@ JavaScript's `===`, the "strict equality" operator.
 
 != is "not equal", and 'a != b' returns the opposite value of 'a == b'
 
+program:
 ```jq
 . == false
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 false
 ```
+program:
 ```jq
 . == {"b": {"d": (4 + 1e-20), "c": 3}, "a":1}
 ```
+input:
 ```json
 {"a":1, "b": {"c": 3, "d": 4}}
 ```
+output:
 ```json
 true
 ```
+program:
 ```jq
 .[] == 1
 ```
+input:
 ```json
 [1, 1.0, "1", "banana"]
 ```
+output:
 ```json
 true
 true
@@ -3194,6 +3734,7 @@ once for each false or null.
 
 More cases can be added to an if using `elif A then B` syntax.
 
+program:
 ```jq
 if . == 0 then
   "zero"
@@ -3203,9 +3744,11 @@ else
   "many"
 end
 ```
+input:
 ```json
 2
 ```
+output:
 ```json
 "many"
 ```
@@ -3218,12 +3761,15 @@ to, less than or equal to or less than their right argument
 
 The ordering is the same as that described for `sort`, above.
 
+program:
 ```jq
 . < 5
 ```
+input:
 ```json
 2
 ```
+output:
 ```json
 true
 ```
@@ -3249,43 +3795,55 @@ than the common Perl/Python/Ruby idiom of
 form of "or", picking between two values rather than
 evaluating a condition, see the `//` operator below.
 
+program:
 ```jq
 42 and "a string"
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 true
 ```
+program:
 ```jq
 (true, false) or false
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 true
 false
 ```
+program:
 ```jq
 (true, true) and (true, false)
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 true
 false
 true
 false
 ```
+program:
 ```jq
 [true, false | not]
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 [false, true]
 ```
@@ -3322,48 +3880,63 @@ generator of three values, and since it produces a
 value other `false` and `null`, the default `42` is not
 produced.
 
+program:
 ```jq
 empty // 42
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 42
 ```
+program:
 ```jq
 .foo // 42
 ```
+input:
 ```json
 {"foo": 19}
 ```
+output:
 ```json
 19
 ```
+program:
 ```jq
 .foo // 42
 ```
+input:
 ```json
 {}
 ```
+output:
 ```json
 42
 ```
+program:
 ```jq
 (false, null, 1) // 42
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 1
 ```
+program:
 ```jq
 (false, null, 1) | . // 42
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 42
 42
@@ -3379,30 +3952,39 @@ expression to try.
 
 The `try EXP` form uses `empty` as the exception handler.
 
+program:
 ```jq
 try .a catch ". is not an object"
 ```
+input:
 ```json
 true
 ```
+output:
 ```json
 ". is not an object"
 ```
+program:
 ```jq
 [.[]|try .a]
 ```
+input:
 ```json
 [{}, true, {"a":1}]
 ```
+output:
 ```json
 [null, 1]
 ```
+program:
 ```jq
 try error("some exception") catch .
 ```
+input:
 ```json
 true
 ```
+output:
 ```json
 "some exception"
 ```
@@ -3443,21 +4025,27 @@ because no label `$out` is visible.
 
 The `?` operator, used as `EXP?`, is shorthand for `try EXP`.
 
+program:
 ```jq
 [.[] | .a?]
 ```
+input:
 ```json
 [{}, true, {"a":1}]
 ```
+output:
 ```json
 [null, 1]
 ```
+program:
 ```jq
 [.[] | tonumber?]
 ```
+input:
 ```json
 ["1", "invalid", "3", 4]
 ```
+output:
 ```json
 [1, 3, 4]
 ```
@@ -3515,21 +4103,27 @@ evaluates to: `true`, `true`, `false`, `false`.
 Like `match`, but does not return match objects, only `true` or `false`
 for whether or not the regex matches the input.
 
+program:
 ```jq
 test("foo")
 ```
+input:
 ```json
 "foo"
 ```
+output:
 ```json
 true
 ```
+program:
 ```jq
 .[] | test("a b c # spaces are ignored"; "ix")
 ```
+input:
 ```json
 ["xabcd", "ABC"]
 ```
+output:
 ```json
 true
 true
@@ -3553,51 +4147,66 @@ Capturing group objects have the following fields:
 
 Capturing groups that did not match anything return an offset of -1
 
+program:
 ```jq
 match("(abc)+"; "g")
 ```
+input:
 ```json
 "abc abc"
 ```
+output:
 ```json
 {"offset": 0, "length": 3, "string": "abc", "captures": [{"offset": 0, "length": 3, "string": "abc", "name": null}]}
 {"offset": 4, "length": 3, "string": "abc", "captures": [{"offset": 4, "length": 3, "string": "abc", "name": null}]}
 ```
+program:
 ```jq
 match("foo")
 ```
+input:
 ```json
 "foo bar foo"
 ```
+output:
 ```json
 {"offset": 0, "length": 3, "string": "foo", "captures": []}
 ```
+program:
 ```jq
 match(["foo", "ig"])
 ```
+input:
 ```json
 "foo bar FOO"
 ```
+output:
 ```json
 {"offset": 0, "length": 3, "string": "foo", "captures": []}
 {"offset": 8, "length": 3, "string": "FOO", "captures": []}
 ```
+program:
 ```jq
 match("foo (?<bar123>bar)? foo"; "ig")
 ```
+input:
 ```json
 "foo bar foo foo  foo"
 ```
+output:
 ```json
 {"offset": 0, "length": 11, "string": "foo bar foo", "captures": [{"offset": 4, "length": 3, "string": "bar", "name": "bar123"}]}
 {"offset": 12, "length": 8, "string": "foo  foo", "captures": [{"offset": -1, "length": 0, "string": null, "name": "bar123"}]}
 ```
+program:
 ```jq
 [ match("."; "g")] | length
 ```
+input:
 ```json
 "abc"
 ```
+output:
 ```json
 3
 ```
@@ -3607,12 +4216,15 @@ Collects the named captures in a JSON object, with the name
 of each capture as the key, and the matched string as the
 corresponding value.
 
+program:
 ```jq
 capture("(?<a>[a-z]+)-(?<n>[0-9]+)")
 ```
+input:
 ```json
 "xyzzy-14"
 ```
+output:
 ```json
 { "a": "xyzzy", "n": "14" }
 ```
@@ -3624,12 +4236,15 @@ have been specified.  If there is no match, the stream is empty.
 To capture all the matches for each input string, use the idiom
 `[ expr ]`, e.g. `[ scan(regex) ]`.
 
+program:
 ```jq
 scan("c")
 ```
+input:
 ```json
 "abcdefabc"
 ```
+output:
 ```json
 "c"
 "c"
@@ -3641,12 +4256,15 @@ Splits an input string on each regex match.
 For backwards compatibility, when called with a single argument,
 `split` splits on a string, not a regex.
 
+program:
 ```jq
 split(", *"; null)
 ```
+input:
 ```json
 "ab,cd, ef"
 ```
+output:
 ```json
 ["ab","cd","ef"]
 ```
@@ -3655,12 +4273,15 @@ split(", *"; null)
 These provide the same results as their `split` counterparts,
 but as a stream instead of an array.
 
+program:
 ```jq
 splits(", *")
 ```
+input:
 ```json
 "ab,cd,   ef, gh"
 ```
+output:
 ```json
 "ab"
 "cd"
@@ -3678,21 +4299,27 @@ as a JSON object (as constructed by `capture`) to
 `tostring`, so a reference to a captured variable named "x"
 would take the form: `"\(.x)"`.
 
+program:
 ```jq
 sub("[^a-z]*(?<x>[a-z]+)"; "Z\(.x)"; "g")
 ```
+input:
 ```json
 "123abc456def"
 ```
+output:
 ```json
 "ZabcZdef"
 ```
+program:
 ```jq
 [sub("(?<a>.)"; "\(.a|ascii_upcase)", "\(.a|ascii_downcase)")]
 ```
+input:
 ```json
 "aB"
 ```
+output:
 ```json
 ["AB","aB"]
 ```
@@ -3702,21 +4329,27 @@ sub("[^a-z]*(?<x>[a-z]+)"; "Z\(.x)"; "g")
 replaced by `tostring`, after interpolation. If the second argument is a stream
 of jq strings, then `gsub` will produce a corresponding stream of JSON strings.
 
+program:
 ```jq
 gsub("(?<x>.)[^a]*"; "+\(.x)-")
 ```
+input:
 ```json
 "Abcabc"
 ```
+output:
 ```json
 "+A-+a-"
 ```
+program:
 ```jq
 [gsub("p"; "a", "b")]
 ```
+input:
 ```json
 "p"
 ```
+output:
 ```json
 ["a","b"]
 ```
@@ -3834,39 +4467,51 @@ particular there's no way to change the value of a binding;
 one can only setup a new binding with the same name, but which
 will not be visible where the old one was.
 
+program:
 ```jq
 .bar as $x | .foo | . + $x
 ```
+input:
 ```json
 {"foo":10, "bar":200}
 ```
+output:
 ```json
 210
 ```
+program:
 ```jq
 . as $i|[(.*2|. as $i| $i), $i]
 ```
+input:
 ```json
 5
 ```
+output:
 ```json
 [10,5]
 ```
+program:
 ```jq
 . as [$a, $b, {c: $c}] | $a + $b + $c
 ```
+input:
 ```json
 [2, 3, {"c": 4, "d": 5}]
 ```
+output:
 ```json
 9
 ```
+program:
 ```jq
 .[] as [$a, $b] | {a: $a, b: $b}
 ```
+input:
 ```json
 [[0], [0, 1], [2, 1, 0]]
 ```
+output:
 ```json
 {"a":0,"b":null}
 {"a":0,"b":1}
@@ -3906,32 +4551,41 @@ that occur during the final alternative are passed through.
 
     [[3]] | .[] as [$a] ?// [$b] | if $a != null then error("err: \($a)") else {$a,$b} end
 
+program:
 ```jq
 .[] as {$a, $b, c: {$d, $e}} ?// {$a, $b, c: [{$d, $e}]} | {$a, $b, $d, $e}
 ```
+input:
 ```json
 [{"a": 1, "b": 2, "c": {"d": 3, "e": 4}}, {"a": 1, "b": 2, "c": [{"d": 3, "e": 4}]}]
 ```
+output:
 ```json
 {"a":1,"b":2,"d":3,"e":4}
 {"a":1,"b":2,"d":3,"e":4}
 ```
+program:
 ```jq
 .[] as {$a, $b, c: {$d}} ?// {$a, $b, c: [{$e}]} | {$a, $b, $d, $e}
 ```
+input:
 ```json
 [{"a": 1, "b": 2, "c": {"d": 3, "e": 4}}, {"a": 1, "b": 2, "c": [{"d": 3, "e": 4}]}]
 ```
+output:
 ```json
 {"a":1,"b":2,"d":3,"e":null}
 {"a":1,"b":2,"d":null,"e":4}
 ```
+program:
 ```jq
 .[] as [$a] ?// [$b] | if $a != null then error("err: \($a)") else {$a,$b} end
 ```
+input:
 ```json
 [[3]]
 ```
+output:
 ```json
 {"a":null,"b":3}
 ```
@@ -3984,21 +4638,27 @@ number of function arguments, but only for references from
 functions (or main program) subsequent to the re-definition.
 See also the section below on scoping.
 
+program:
 ```jq
 def addvalue(f): . + [f]; map(addvalue(.[0]))
 ```
+input:
 ```json
 [[1,2],[10,20]]
 ```
+output:
 ```json
 [[1,2,1], [10,20,10]]
 ```
+program:
 ```jq
 def addvalue(f): f as $x | map(. + $x); addvalue(.[0])
 ```
+input:
 ```json
 [[1,2],[10,20]]
 ```
+output:
 ```json
 [[1,2,1,2], [10,20,1,2]]
 ```
@@ -4022,30 +4682,39 @@ $times_three | [. + $times_three]) | ...`: here the binding
 
 Returns true if `exp` produces no outputs, false otherwise.
 
+program:
 ```jq
 isempty(empty)
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 true
 ```
+program:
 ```jq
 isempty(.[])
 ```
+input:
 ```json
 []
 ```
+output:
 ```json
 true
 ```
+program:
 ```jq
 isempty(.[])
 ```
+input:
 ```json
 [1,2,3]
 ```
+output:
 ```json
 false
 ```
@@ -4053,12 +4722,15 @@ false
 
 The `limit` function extracts up to `n` outputs from `expr`.
 
+program:
 ```jq
 [limit(3; .[])]
 ```
+input:
 ```json
 [0,1,2,3,4,5,6,7,8,9]
 ```
+output:
 ```json
 [0,1,2]
 ```
@@ -4066,12 +4738,15 @@ The `limit` function extracts up to `n` outputs from `expr`.
 
 The `skip` function skips the first `n` outputs from `expr`.
 
+program:
 ```jq
 [skip(3; .[])]
 ```
+input:
 ```json
 [0,1,2,3,4,5,6,7,8,9]
 ```
+output:
 ```json
 [3,4,5,6,7,8,9]
 ```
@@ -4083,21 +4758,27 @@ and last values from `expr`, respectively.
 The `nth(n; expr)` function extracts the nth value output by `expr`.
 Note that `nth(n; expr)` doesn't support negative values of `n`.
 
+program:
 ```jq
 [first(range(.)), last(range(.)), nth(5; range(.))]
 ```
+input:
 ```json
 10
 ```
+output:
 ```json
 [0,9,5]
 ```
+program:
 ```jq
 [first(empty), last(empty), nth(5; empty)]
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 []
 ```
@@ -4108,12 +4789,15 @@ and last values from any array at `.`.
 
 The `nth(n)` function extracts the nth value of any array at `.`.
 
+program:
 ```jq
 [range(.)]|[first, last, nth(5)]
 ```
+input:
 ```json
 10
 ```
+output:
 ```json
 [0,9,5]
 ```
@@ -4135,30 +4819,39 @@ so the effect is similar to running something like this:
         2 as $item | . + $item |
         3 as $item | . + $item
 
+program:
 ```jq
 reduce .[] as $item (0; . + $item)
 ```
+input:
 ```json
 [1,2,3,4,5]
 ```
+output:
 ```json
 15
 ```
+program:
 ```jq
 reduce .[] as [$i,$j] (0; . + $i * $j)
 ```
+input:
 ```json
 [[1,2],[3,4],[5,6]]
 ```
+output:
 ```json
 44
 ```
+program:
 ```jq
 reduce .[] as {$x,$y} (null; .x += $x | .y += [$y])
 ```
+input:
 ```json
 [{"x":"a","y":1},{"x":"b","y":2},{"x":"c","y":3}]
 ```
+output:
 ```json
 {"x":"abc","y":[1,2,3]}
 ```
@@ -4187,12 +4880,15 @@ to running something like this:
 When `EXTRACT` is omitted, the identity filter is used.
 That is, it outputs the intermediate values as they are.
 
+program:
 ```jq
 foreach .[] as $item (0; . + $item)
 ```
+input:
 ```json
 [1,2,3,4,5]
 ```
+output:
 ```json
 1
 3
@@ -4200,12 +4896,15 @@ foreach .[] as $item (0; . + $item)
 10
 15
 ```
+program:
 ```jq
 foreach .[] as $item (0; . + $item; [$item, . * 2])
 ```
+input:
 ```json
 [1,2,3,4,5]
 ```
+output:
 ```json
 [1,2]
 [2,6]
@@ -4213,12 +4912,15 @@ foreach .[] as $item (0; . + $item; [$item, . * 2])
 [4,20]
 [5,30]
 ```
+program:
 ```jq
 foreach .[] as $item (0; . + 1; {index: ., $item})
 ```
+input:
 ```json
 ["foo", "bar", "baz"]
 ```
+output:
 ```json
 {"index":1,"item":"foo"}
 {"index":2,"item":"bar"}
@@ -4277,24 +4979,30 @@ recursive call by `_range` to itself is in tail position.
 The example shows off three advanced topics: tail recursion,
 generator construction, and sub-functions.
 
+program:
 ```jq
 def range(init; upto; by): def _range: if (by > 0 and . < upto) or (by < 0 and . > upto) then ., ((.+by)|_range) else . end; if by == 0 then init else init|_range end | select((by > 0 and . < upto) or (by < 0 and . > upto)); range(0; 10; 3)
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 0
 3
 6
 9
 ```
+program:
 ```jq
 def while(cond; update): def _while: if cond then ., (update | _while) else empty end; _while; [while(.<100; .*2)]
 ```
+input:
 ```json
 1
 ```
+output:
 ```json
 [1,2,4,8,16,32,64]
 ```
@@ -4445,12 +5153,15 @@ Consumes a number as input and truncates the corresponding
 number of path elements from the left of the outputs of the
 given streaming expression.
 
+program:
 ```jq
 truncate_stream([[0],1],[[1,0],2],[[1,0]],[[1]])
 ```
+input:
 ```json
 1
 ```
+output:
 ```json
 [[0],2]
 [[0]]
@@ -4460,12 +5171,15 @@ truncate_stream([[0],1],[[1,0],2],[[1,0]],[[1]])
 Outputs values corresponding to the stream expression's
 outputs.
 
+program:
 ```jq
 fromstream(1|truncate_stream([[0],1],[[1,0],2],[[1,0]],[[1]]))
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 [2]
 ```
@@ -4473,12 +5187,15 @@ null
 
 The `tostream` builtin outputs the streamed form of its input.
 
+program:
 ```jq
 . as $dot|fromstream($dot|tostream)|.==$dot
 ```
+input:
 ```json
 [0,[1,{"a":1},{"b":2}]]
 ```
+output:
 ```json
 true
 ```
@@ -4549,12 +5266,15 @@ If the right-hand side outputs multiple values, only the first
 one will be used (COMPATIBILITY NOTE: in jq 1.5 and earlier
 releases, it used to be that only the last one was used).
 
+program:
 ```jq
 (..|select(type=="boolean")) |= if . then 1 else 0 end
 ```
+input:
 ```json
 [true,false,[5,true,[true,[false]],false]]
 ```
+output:
 ```json
 [1,0,[5,1,[1,[0]],0]]
 ```
@@ -4564,12 +5284,15 @@ jq has a few operators of the form `a op= b`, which are all
 equivalent to `a |= . op b`. So, `+= 1` can be used to
 increment values, being the same as `|= . + 1`.
 
+program:
 ```jq
 .foo += 1
 ```
+input:
 ```json
 {"foo": 42}
 ```
+output:
 ```json
 {"foo": 43}
 ```
@@ -4603,41 +5326,53 @@ field of the input, and produce the output `{"a": 20, "b": 20}`.
 The latter will set the `a` field of the input to the `a`
 field's `b` field, producing `{"a": 10, "b": 20}`.
 
+program:
 ```jq
 .a = .b
 ```
+input:
 ```json
 {"a": {"b": 10}, "b": 20}
 ```
+output:
 ```json
 {"a":20,"b":20}
 ```
+program:
 ```jq
 .a |= .b
 ```
+input:
 ```json
 {"a": {"b": 10}, "b": 20}
 ```
+output:
 ```json
 {"a":10,"b":20}
 ```
+program:
 ```jq
 (.a, .b) = range(3)
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 {"a":0,"b":0}
 {"a":1,"b":1}
 {"a":2,"b":2}
 ```
+program:
 ```jq
 (.a, .b) |= range(3)
 ```
+input:
 ```json
 null
 ```
+output:
 ```json
 {"a":0,"b":0}
 ```

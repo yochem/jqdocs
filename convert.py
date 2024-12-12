@@ -50,8 +50,11 @@ def convert_document(doc):
                 md_doc.append(entry.pop("body"))
                 with suppress(KeyError):
                     for example in entry.pop("examples"):
+                        md_doc.append('program:')
                         md_doc.append(md_code(example.pop("program"), lang="jq"))
+                        md_doc.append('input:')
                         md_doc.append(md_code(example.pop("input"), lang="json"))
+                        md_doc.append('output:')
                         md_doc.append(md_code(example.pop("output"), lang="json"))
                         ensure_all_keys_used(example)
 
