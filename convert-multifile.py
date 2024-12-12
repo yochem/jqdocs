@@ -34,10 +34,14 @@ def md_heading(title, depth):
 def convert_document(doc) -> list[list[str]]:
     md_docs = {}
 
-    frontmatter = {}
-    for key in ("headline", "manpage_intro", "manpage_epilogue"):
-        frontmatter[key] = doc.pop(key)
-    md_docs['_index'] = [md_frontmatter(frontmatter)]
+    # not necessary for website
+    doc.pop("manpage_intro")
+    doc.pop("manpage_epilogue")
+
+    md_docs['_index'] = []
+    frontmatter = {"title": doc.pop('headline')}
+    md_docs['_index'].append(md_frontmatter(frontmatter))
+
     md_docs['_index'].append(doc.pop('body'))
 
     for section in doc.pop("sections"):
