@@ -33,14 +33,16 @@
 		{{ end }}
 		</ul>
 	</div>
-	<!-- {%- if navitem.startswith('manual') %} -->
-	<!-- <div class="container-searchbox form-control p-0 d-none d-md-flex d-print-none border" style="width:16rem"> -->
-	<!--   <span class="bi bi-search my-auto ms-2 me-1" aria-hidden="true"></span> -->
-	<!--   <input type="text" id="searchbox" class="form-control border-0 px-1" placeholder="Search manual" role="combobox" -->
-	<!--     aria-label="Search manual" aria-keyshortcuts="/" aria-expanded="false" autocomplete="off" spellcheck="false"> -->
-	<!--   <kbd class="mx-1 my-auto text-body bg-body rounded border" style="padding:.1rem .2rem" aria-hidden="true">/</kbd> -->
-	<!-- </div> -->
-	<!-- {%- endif %} -->
+	{{ with .Site.GetPage "manual" }}
+	{{ if $.InSection . }}
+		<div class="container-searchbox form-control p-0 d-none d-md-flex d-print-none border" style="width:16rem">
+		<span class="bi bi-search my-auto ms-2 me-1" aria-hidden="true"></span>
+		<input type="text" id="searchbox" class="form-control border-0 px-1" placeholder="Search manual" role="combobox"
+			aria-label="Search manual" aria-keyshortcuts="/" aria-expanded="false" autocomplete="off" spellcheck="false">
+		<kbd class="mx-1 my-auto text-body bg-body rounded border" style="padding:.1rem .2rem" aria-hidden="true">/</kbd>
+		</div>
+	{{ end }}
+	{{ end }}
 	<a class="d-md-none bi bi-github fs-4 text-body" href="https://github.com/jqlang/jq" target="_blank" rel="noopener" aria-label="GitHub"></a>
 	</nav>
 </header>

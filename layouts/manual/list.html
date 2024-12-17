@@ -1,7 +1,3 @@
-{{ define "content" }}
-
 {{ with .Site.GetPage "/manual/v1.7" }}
-<h1>{{ .Title }}</h1>
-{{ .Content }}
-{{ end }}
+{{ .Render "single" }}
 {{ end }}
