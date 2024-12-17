@@ -1,0 +1,34 @@
+[
+  {
+    "sha": "cff5336ec71b6fee396a95bb0e4bea365e0cd1e8",
+    "node_id": "C_kwDOAE3WVdoAKGNmZjUzMzZlYzcxYjZmZWUzOTZhOTViYjBlNGJlYTM2NWUwY2QxZTg",
+    "commit": {
+      "author": {
+        "name": "Mattias Wadman",
+        "email": "mattias.wadman@gmail.com",
+        "date": "2021-06-09T14:02:22Z"
+      },
+      "committer": {
+        "name": "Nico Williams",
+        "email": "nico@cryptonector.com",
+        "date": "2022-05-26T21:04:32Z"
+      },
+      "message": "docs: Document repeat(exp)",
+      "tree": {
+        "sha": "d67d5542df1f16d1a48e1fb75749f60482cd874b",
+        "url": "https://api.github.com/repos/jqlang/jq/git/trees/d67d5542df1f16d1a48e1fb75749f60482cd874b"
+      },
+      "url": "https://api.github.com/repos/jqlang/jq/git/commits/cff5336ec71b6fee396a95bb0e4bea365e0cd1e8",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null
+      }
+    },
+    "url": "https://api.github.com/repos/jqlang/jq/commits/cff5336ec71b6fee396a95bb0e4bea365e0cd1e8",
+    "html_url": "https://github.com/jqlang/jq/commit/cff5336ec71b6fee396a95bb0e4bea365e0cd1e8",
+    "comments_url": "https://api.github.com/repos/jqlang/jq/commits/cff5336ec71b6fee396a95bb0e4bea365e0cd1e8/comments",
+    "author": {
+...
