@@ -1,10 +1,7 @@
 <div class="container visually-hidden-focusable">
 	<a class="d-inline-flex p-2" href="#main">Skip to main content</a>
-	<!-- <a class="d-inline-flex p-2 m-1" href="#contents">Skip to table of contents</a> -->
-	{{ if .IsDescendant (site.GetPage "/") }}
-		This page is in the manual section
-	{{ else }}
-  This page is not in the manual section
+	{{ if .InSection (site.GetPage "manual") }}
+	<a class="d-inline-flex p-2 m-1" href="#contents">Skip to table of contents</a>
 	{{ end }}
 </div>
 <header class="navbar navbar-expand-md sticky-top bg-body-tertiary d-print-none">
@@ -23,25 +20,25 @@
 		</div>
 		<ul class="offcanvas-body navbar-nav me-auto text-nowrap">
 		{{- $currentPageURL := page.RelPermalink -}}
-		<li class="nav-item d-md-none"><a class="nav-link{{ if (eq $currentPageURL "/") }} active{{ end }}" {{ if (eq $currentPageURL "/") }}aria-current="page"{{ end }} href="/">Top page</a></li>
+		<li class="nav-item d-md-none"><a class="nav-link" {{ if (eq $currentPageURL "/") }}aria-current="page"{{ end }} href="/">Top page</a></li>
 		{{ range site.Menus.nav }}
-		<li class="nav-item">
-			<a class="nav-link{{ if (eq $currentPageURL .URL) }} active{{ end }}" {{ if (eq $currentPageURL .URL) }}aria-current="page"{{ end }} href="{{ .URL }}">
-			{{ .Name }}
-			</a>
+		<li class="nav-item"><a
+			class="nav-link{{ if (eq $currentPageURL .URL) }} active{{ end }}"
+			{{ if (eq $currentPageURL .URL) }}aria-current="page"{{ end -}}
+			{{ if hasPrefix .URL "http" }}target="_blank" rel="noopener"{{ end }}
+			href="{{ .URL }}"
+		>{{ .Name }}</a>
 		</li>
 		{{ end }}
 		</ul>
 	</div>
-	{{ with .Site.GetPage "manual" }}
-	{{ if $.InSection . }}
+	{{ if .InSection (site.GetPage "manual") }}
 		<div class="container-searchbox form-control p-0 d-none d-md-flex d-print-none border" style="width:16rem">
 		<span class="bi bi-search my-auto ms-2 me-1" aria-hidden="true"></span>
 		<input type="text" id="searchbox" class="form-control border-0 px-1" placeholder="Search manual" role="combobox"
 			aria-label="Search manual" aria-keyshortcuts="/" aria-expanded="false" autocomplete="off" spellcheck="false">
 		<kbd class="mx-1 my-auto text-body bg-body rounded border" style="padding:.1rem .2rem" aria-hidden="true">/</kbd>
 		</div>
-	{{ end }}
 	{{ end }}
 	<a class="d-md-none bi bi-github fs-4 text-body" href="https://github.com/jqlang/jq" target="_blank" rel="noopener" aria-label="GitHub"></a>
 	</nav>
