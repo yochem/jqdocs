@@ -55,7 +55,7 @@ unchanged as output.
 
 We can use jq to extract just the first commit.
 
-```jq
+```
 curl 'https://api.github.com/repos/jqlang/jq/commits?per_page=5' | jq '.[0]'
 ```
 ```json
