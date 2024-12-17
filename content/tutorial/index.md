@@ -5,56 +5,17 @@ title: Tutorial
 GitHub has a JSON API, so let's play with that. This URL gets us the last
 5 commits from the jq repo.
 
-```jq
-curl 'https://api.github.com/repos/jqlang/jq/commits?per_page=5'
-```
-```json
-[
-  {
-    "sha": "cff5336ec71b6fee396a95bb0e4bea365e0cd1e8",
-    "node_id": "C_kwDOAE3WVdoAKGNmZjUzMzZlYzcxYjZmZWUzOTZhOTViYjBlNGJlYTM2NWUwY2QxZTg",
-    "commit": {
-      "author": {
-        "name": "Mattias Wadman",
-        "email": "mattias.wadman@gmail.com",
-        "date": "2021-06-09T14:02:22Z"
-      },
-      "committer": {
-        "name": "Nico Williams",
-        "email": "nico@cryptonector.com",
-        "date": "2022-05-26T21:04:32Z"
-      },
-      "message": "docs: Document repeat(exp)",
-      "tree": {
-        "sha": "d67d5542df1f16d1a48e1fb75749f60482cd874b",
-        "url": "https://api.github.com/repos/jqlang/jq/git/trees/d67d5542df1f16d1a48e1fb75749f60482cd874b"
-      },
-      "url": "https://api.github.com/repos/jqlang/jq/git/commits/cff5336ec71b6fee396a95bb0e4bea365e0cd1e8",
-      "comment_count": 0,
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "signature": null,
-        "payload": null
-      }
-    },
-    "url": "https://api.github.com/repos/jqlang/jq/commits/cff5336ec71b6fee396a95bb0e4bea365e0cd1e8",
-    "html_url": "https://github.com/jqlang/jq/commit/cff5336ec71b6fee396a95bb0e4bea365e0cd1e8",
-    "comments_url": "https://api.github.com/repos/jqlang/jq/commits/cff5336ec71b6fee396a95bb0e4bea365e0cd1e8/comments",
-    "author": {
-...
+{{< show-result-accordion `curl 'https://api.github.com/repos/jqlang/jq/commits?per_page=5'`>}}
+{{< include "result-1.json" >}}
+{{< /show-result-accordion >}}
 
-```
 
 GitHub returns nicely formatted JSON. For servers that don't, it can be
 helpful to pipe the response through jq to pretty-print it. The simplest
 jq program is the expression `.`, which takes the input and produces it
 unchanged as output.
 
-```jq
-curl 'https://api.github.com/repos/jqlang/jq/commits?per_page=5' | jq '.'
-```
-```json
+{{< show-result-accordion `curl 'https://api.github.com/repos/jqlang/jq/commits?per_page=5' | jq '.'`>}}
 [
   {
     "sha": "cff5336ec71b6fee396a95bb0e4bea365e0cd1e8",
@@ -90,7 +51,7 @@ curl 'https://api.github.com/repos/jqlang/jq/commits?per_page=5' | jq '.'
     "author": {
 ...
 
-```
+{{< /show-result-accordion >}}
 
 We can use jq to extract just the first commit.
 

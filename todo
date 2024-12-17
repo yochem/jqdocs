@@ -4,3 +4,12 @@
 - navbar: hide "Top Page"
 - tutorial: example "show result"
 - news page
+
+
+
+long term:
+- cleanup icons / assets
+- robots.txt:
+	- remove?
+	- include sitemap?
+	- disallow old manual versions?

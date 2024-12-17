@@ -1,0 +1,10 @@
+<div class="tutorial-example mb-3">
+	<div class="d-flex accordion-heading me-2">
+		<pre class="flex-grow-1 me-0 mb-0" tabindex="0">{{ .Get 0 }}</pre>
+		<button type="button"
+			class="btn btn-sm btn-secondary text-body-secondary bg-secondary-subtle link-body-emphasis flex-shrink-0 d-flex align-items-center border border-start-0 d-print-none"
+			data-bs-toggle="collapse" data-bs-target="#result{{ .Inner | md5 }}" aria-expanded="false" aria-controls="result{{ .Inner | md5 }}">Show
+			result</button>
+	</div>
+	<pre id="result{{ .Inner | md5 }}" class="accordion-body collapse p-3 border-top-0 d-print-block" tabindex="0">{{ .Inner }}</pre>
+</div>
