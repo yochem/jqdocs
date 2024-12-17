@@ -1,13 +1,18 @@
-- TOC manual
-- /manual/ -> /manual/1.7/
+
+Manual:
+- good anchors
+- manual/v1.7 in canonical
+- configure 'newest' manual/ page in hugo.toml?
 - navbar: search on manual page
-- navbar: hide "Top Page"
-- tutorial: example "show result"
-- news page
+- pull in new dev.md
 
+Code examples:
+- link to jqplay
 
+News:
+- Add news page
 
-long term:
+Long term (after initial!):
 - cleanup icons / assets
 - robots.txt:
 	- remove?
