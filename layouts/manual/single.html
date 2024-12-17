@@ -1,0 +1,48 @@
+{{ define "content" }}
+<div class="container-lg row align-items-start mx-auto p-3">
+	<button type="button" class="d-md-none w-auto position-fixed bottom-0 end-0 p-2 m-3 bg-body-secondary border-0 text-body d-print-none"
+	data-bs-toggle="offcanvas" data-bs-target="#contents" aria-controls="contents" aria-expanded="false" aria-label="Toggle table of contents">
+	<span class="bi bi-list" aria-hidden="true"></span>
+	</button>
+	<nav id="contents" class="col-md-3 sticky-md-top p-3 overflow-y-auto offcanvas-md offcanvas-end d-print-none" style="top:4.5rem; height:calc(100dvh - 5.5rem);" aria-label="Table of contents">
+	<h4>Contents</h4>
+	<ul class="ps-0">
+	{{ range (first 1 .Fragments.Headings) }}
+	{{ range .Headings }}
+		{{ if .Headings }}
+			<li>
+			<details>
+				<summary class="py-2">
+				<a href="#{{ .ID }}" class="text-decoration-none">{{ .Title }}</a>
+				</summary>
+				<ul>
+				{{ range .Headings }}
+					<li class="py-2 ps-4"><a href="#{{ .ID }}" class="text-decoration-none">{{ .Title | safe.HTML }}</a></li>
+				{{ end }}
+				</ul>
+			</details>
+			</li>
+		{{ else }}
+			<li class="py-2"><a href="#{{ .ID }}" class="text-decoration-none">{{ .Title }}</a></li>
+		{{ end }}
+	{{ end }}
+	{{ end }}
+	</ul>
+	</nav>
+		<main id="main" class="col-md-9" data-bs-spy="scroll" data-bs-target="#contents" data-bs-threshold="0,1" data-bs-root-margin="-30% 0% -70%">
+		<h1>{{ .Title }}</h1>
+		<p>
+			<em>
+			For other versions, see
+			<a href="/manual/v1.7/">1.7</a>,
+			<a href="/manual/v1.6/">1.6</a>,
+			<a href="/manual/v1.5/">1.5</a>,
+			<a href="/manual/v1.4/">1.4</a>,
+			<a href="/manual/v1.3/">1.3</a> or
+			<a href="/manual/dev/">development version</a>.
+			</em>
+		</p>
+	{{ .Content }}
+
+	</div>
+{{ end }}

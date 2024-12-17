@@ -1,6 +1,7 @@
 {{ define "content" }}
-<main id="main" class="container-lg">
+
+{{ with .Site.GetPage "/manual/v1.7" }}
 <h1>{{ .Title }}</h1>
 {{ .Content }}
-</main>
+{{ end }}
 {{ end }}
