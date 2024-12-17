@@ -1,20 +1,31 @@
-
 Manual:
 - good anchors
 - manual/v1.7 in canonical
-- configure 'newest' manual/ page in hugo.toml?
-- navbar: search on manual page
-- pull in new dev.md
 
 Code examples:
-- link to jqplay
+- link to jqplay -> decide on markdown format:
+  - include files? e.g.:
+    example-1/
+      program.jq
+      input.json
+      output.json
+    example-2/
+      program.jq
+      input.json
+      output.json
+  - inline in markdown and do some processing
+  - shortcodes
 
-News:
-- Add news page
+- GH action:
+  - news.md
+  - manuals
+  - build hugo
 
 Long term (after initial!):
 - cleanup icons / assets
 - robots.txt:
-	- remove?
-	- include sitemap?
-	- disallow old manual versions?
+  - remove?
+  - include sitemap?
+  - disallow old manual versions?
+- cleanup inline css
+- highlight current item in TOC?

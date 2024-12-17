@@ -12,3 +12,20 @@
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+{{ if $.InSection (site.GetPage "manual") }}
+  <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"
+    integrity="sha384-xbzjoN6H5XHmAqoSSR42hZVRninPGx85y+XZQGlWxVu2y91lTmr/oD80i5cjeUBv" crossorigin="anonymous"></script>
+  {{ $dict := dict }}
+  {{ range (first 1 .Fragments.Headings) }}
+  {{ range .Headings }}
+    {{ $dict = merge $dict (dict (.Title | plainify | string) .ID) }}
+        {{ range .Headings }}
+        {{ $dict = merge $dict (dict (.Title | plainify | string) .ID) }}
+        {{ end }}
+  {{ end }}
+  {{ end }}
+  <script id="section-ids" type="application/json">
+    {{ $dict }}
+  </script>
+  {{ with resources.Get "js/manual-search.js" }}<script src="{{ .RelPermalink }}"></script>{{ end }}
+{{ end }}

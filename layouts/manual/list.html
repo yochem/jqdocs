@@ -1,3 +1,3 @@
-{{ with .Site.GetPage "/manual/v1.7" }}
+{{ with .Site.GetPage (printf "/manual/%s" site.Params.manualLatestVersion) }}
 {{ .Render "single" }}
 {{ end }}
